@@ -1,47 +1,81 @@
-/* CSS code for the Weather Dashboard */
-
-/* Style the container */
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+#content-left .form-group {
+    margin-bottom: 1rem;
   }
   
-  /* Style the heading */
-  h1 {
-    text-align: center;
+  #content-left .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
   }
   
-  /* Style the input and button */
-  input[type="text"] {
-    padding: 5px;
-    font-size: 16px;
-    width: 200px;
+  #content-left .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
   }
   
-  button {
-    padding: 5px 10px;
-    font-size: 16px;
+  #content-left .form-control {
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
   }
   
-  /* Style the weather information container */
-  #weatherInfo {
-    margin-top: 20px;
+  #content-left .input-group-append {
+    display: flex;
   }
   
-  /* Style each forecast entry */
-  #weatherInfo div {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  #content-left .btn-primary {
+    margin-left: -1px;
   }
   
-  /* Style the horizontal line */
-  hr {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 5px 0;
+  #content-left #search-error {
+    margin-top: 0.5rem;
   }
   
-  /* Additional custom styles can be added here */
+  #content-left #city-results {
+    margin-top: 1.5rem;
+  }
+  
+  #content-left #clear-storage {
+    display: none;
+  }
+  
+  #content-right #current-weather {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+  }
+  
+  #content-right #five-day-forecast {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  header.jumbotron {
+    background: #1a2846;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  @media screen and (max-width: 1180px) {
+    #content-right #five-day-forecast {
+      flex-direction: column;
+    }
+  }
+  
+  @media screen and (max-width: 576px) {
+    #content-right .row.present-day-weather {
+      --bs-gutter-x: 0rem;
+      margin: 1rem 0;
+    }
+  
+    #content-right .present-day-weather ul {
+      margin: 1rem 0;
+    }
+  }
   
