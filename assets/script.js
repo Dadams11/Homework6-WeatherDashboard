@@ -1,8 +1,8 @@
 var apiKey = '1e9cbae69e5062a0d8f5e832145475fa';
 var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=';
-var currentWeatherApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+var currentWeatherApi = '';
 var city = '';
-var geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
+var geoUrl = '';
 
 var geoLon, geoLat;
 
@@ -10,59 +10,65 @@ var geoLon, geoLat;
 var cityNames = [];
 
 function displayWeatherData(data) {
-  var weatherInfoDiv = document.getElementById('weatherInfo');
+  var weatherInfoDiv = document.getElementById('five-day-forecast');
   weatherInfoDiv.innerHTML = '';
 
   if (data.list) {
     // Handle forecast weather data
     for (var forecast of data.list) {
-      //"2023-06-16 06:00:00"
-      if (forecast.dt_txt.slice(11, 13)==='12'){
-        console.log('date time', forecast.dt_txt.slice(11, 13))
-      if (forecast.main && forecast.weather && forecast.weather.length > 0) {
-        var dateTime = new Date(forecast.dt_txt);
-        var date = dateTime.toDateString();
-        var time = dateTime.toLocaleTimeString();
-        var temperature = Math.round(forecast.main.temp - 273.15);
-        var weatherDescription = forecast.weather[0].description;
-        var weatherIcon= `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
-        var forecastDiv = document.createElement('div');
-        forecastDiv.innerHTML = `
-          <p>Date: ${date}</p>
-          <p>Time: ${time}</p>
-          <img src= ${weatherIcon}>
-          <p>Temperature: ${temperature}°C</p>
-          <p>Description: ${weatherDescription}</p>
-          <hr>
-        `;
+      if (forecast.dt_txt.slice(11, 13) === '12') {
+        if (forecast.main && forecast.weather && forecast.weather.length > 0) {
+          var dateTime = new Date(forecast.dt_txt);
+          var date = dateTime.toDateString();
+          var time = dateTime.toLocaleTimeString();
+          var temperature = Math.round(forecast.main.temp - 273.15);
+          var weatherDescription = forecast.weather[0].description;
+          var weatherIcon = `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
+          var forecastDiv = document.createElement('div');
+          forecastDiv.innerHTML = `
+            <p>Date: ${date}</p>
+            <p>Time: ${time}</p>
+            <img src=${weatherIcon}>
+            <p>Temperature: ${temperature}°C</p>
+            <p>Description: ${weatherDescription}</p>
+            <hr>
+          `;
 
-        weatherInfoDiv.appendChild(forecastDiv);
+          weatherInfoDiv.appendChild(forecastDiv);
+        }
       }
     }
-  }
-  } else if (data.main && data.weather && data.weather.length > 0) {
-    // Handle current weather data
-    var dateTime = new Date(data.dt * 1000);
-    var date = dateTime.toDateString();
-    var time = dateTime.toLocaleTimeString();
-    var temperature = Math.round(data.main.temp - 273.15);
-    var weatherDescription = data.weather[0].description;
-
-    var currentDiv = document.createElement('div');
-    currentDiv.innerHTML = `
-      <p>Date: ${date}</p>
-      <p>Time: ${time}</p>
-      <p>Temperature: ${temperature}°C</p>
-      <p>Description: ${weatherDescription}</p>
-      <hr>
-    `;
-
-    weatherInfoDiv.appendChild(currentDiv);
-  } else {
+ }
+   
+   else {
     console.log('No weather data available for the specified city.');
   }
 }
+function displayCurrentWeather (data){
+  console.log('random');
+  var weatherInfoDiv = document.getElementById('weatherInfo');
+  weatherInfoDiv.innerHTML = '';
+  var dateTime = new Date(data.dt * 1000);
+  var date = dateTime.toDateString();
+  var time = dateTime.toLocaleTimeString();
+  var temperature = Math.round(data.main.temp - 273.15);
+  var weatherDescription = data.weather[0].description;
+  console.log(weatherDescription);
+  console.log(data);
+weatherInfoDiv.textContent = weatherDescription;
 
+  var currentDiv = document.createElement('div');
+  currentDiv.innerHTML = `
+    <p>Date: ${date}</p>
+    <p>Time: ${time}</p>
+    <p>Temperature: ${temperature}°C</p>
+    <p>Description: ${weatherDescription}</p>
+    <hr>
+  `;
+console.log(currentDiv);
+  weatherInfoDiv.appendChild(currentDiv);
+  console.log(weatherInfoDiv);
+}
 function getWeatherData(city) {
   fetch(apiUrl + city + '&appid=' + apiKey)
     .then(function (response) {
@@ -78,12 +84,13 @@ function getWeatherData(city) {
 }
 
 function getCurrentWeatherData(city) {
+  currentWeatherApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
   fetch(currentWeatherApi)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      displayWeatherData(data);
+      displayCurrentWeather(data);
     })
     .catch(function (error) {
       console.log('Error:', error);
@@ -91,6 +98,8 @@ function getCurrentWeatherData(city) {
 }
 
 function searchWeatherData() {
+  geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
+
   fetch(geoUrl)
     .then(function (response) {
       return response.json();
@@ -122,7 +131,6 @@ function searchWeatherData() {
     });
 }
 
-
 var searchButton = document.getElementById('searchButton');
 searchButton.addEventListener('click', function (event) {
   event.preventDefault();
@@ -130,13 +138,10 @@ searchButton.addEventListener('click', function (event) {
   city = cityInput.value.trim();
 
   if (city) {
-    //create an array to store city names
-
-    //save array into local storage
-    localStorage.setItem('apiKey', apiKey);
     getWeatherData(city);
   }
 });
+
 // Function to retrieve data from local storage
 function retrieveDataFromLocalStorage() {
   var storedData = localStorage.getItem('storedData');
@@ -176,11 +181,13 @@ function handleSearchButtonClick() {
   city = cityInput.value.trim();
 
   if (city) {
+    console.log(city);
     var storedData = retrieveDataFromLocalStorage();
     storedData.push(city);
     saveDataToLocalStorage(storedData);
     createButtonsForLocalStorageData();
     getWeatherData(city);
+    getCurrentWeatherData(city);
   }
 }
 
@@ -191,6 +198,5 @@ searchButton.addEventListener('click', handleSearchButtonClick);
 // Initial setup: Create buttons for existing data in local storage
 createButtonsForLocalStorageData();
 
-
 // Initialize with default city
-getCurrentWeatherData(city);
+// getCurrentWeatherData(city);

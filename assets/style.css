@@ -1,0 +1,48 @@
+body {
+  background-color: #f8f9fa;
+}
+
+#header {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+#content-left {
+  background-color: #ffffff;
+  padding: 2rem;
+}
+
+#content-right {
+  background-color: #ffffff;
+  padding: 2rem;
+}
+
+#currentWeather,
+#five-day-forecast {
+  background-color: #ffffff;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+#search-error {
+  color: red;
+  margin-top: 1rem;
+}
+
+#city-results {
+  margin-top: 1rem;
+}
+
+#clear-storage {
+  font-size: 0.85rem;
+  color: #dc3545;
+}
+
+#forecastCards .card {
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
