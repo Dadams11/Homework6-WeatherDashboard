@@ -23,6 +23,8 @@ function displayWeatherData(data) {
           var time = dateTime.toLocaleTimeString();
           var temperature = Math.round(forecast.main.temp - 273.15);
           var weatherDescription = forecast.weather[0].description;
+          var humidity= forecast.main.humidity;
+          var windSpeed= forecast.wind.speed;
           var weatherIcon = `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
           var forecastDiv = document.createElement('div');
           forecastDiv.innerHTML = `
@@ -31,6 +33,8 @@ function displayWeatherData(data) {
             <img src=${weatherIcon}>
             <p>Temperature: ${temperature}°C</p>
             <p>Description: ${weatherDescription}</p>
+            <p>Humidity: ${humidity}\%</p>
+            <p>Wind Speed: ${windSpeed} MPH</p>
             <hr>
           `;
 
@@ -45,7 +49,6 @@ function displayWeatherData(data) {
   }
 }
 function displayCurrentWeather (data){
-  console.log('random');
   var weatherInfoDiv = document.getElementById('weatherInfo');
   weatherInfoDiv.innerHTML = '';
   var dateTime = new Date(data.dt * 1000);
@@ -53,9 +56,11 @@ function displayCurrentWeather (data){
   var time = dateTime.toLocaleTimeString();
   var temperature = Math.round(data.main.temp - 273.15);
   var weatherDescription = data.weather[0].description;
+  var humidity= data.main.humidity;
+  var windSpeed= data.wind.speed;
   console.log(weatherDescription);
   console.log(data);
-weatherInfoDiv.textContent = weatherDescription;
+// weatherInfoDiv.textContent = weatherDescription;
 
   var currentDiv = document.createElement('div');
   currentDiv.innerHTML = `
@@ -63,9 +68,11 @@ weatherInfoDiv.textContent = weatherDescription;
     <p>Time: ${time}</p>
     <p>Temperature: ${temperature}°C</p>
     <p>Description: ${weatherDescription}</p>
+    <p>Humidity: ${humidity}\%</p>
+    <p>Wind Speed: ${windSpeed} MPH</p>
     <hr>
   `;
-console.log(currentDiv);
+console.log("currentDiv" + currentDiv);
   weatherInfoDiv.appendChild(currentDiv);
   console.log(weatherInfoDiv);
 }
@@ -199,4 +206,4 @@ searchButton.addEventListener('click', handleSearchButtonClick);
 createButtonsForLocalStorageData();
 
 // Initialize with default city
-// getCurrentWeatherData(city);
+ getCurrentWeatherData(city);

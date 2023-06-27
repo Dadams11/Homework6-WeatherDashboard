@@ -46,3 +46,13 @@ body {
 .card-body {
   padding: 1rem;
 }
+
+
+#header-text {
+  font-size: 2rem; 
+}
+
+#header {
+  background-color: #4b8fbc; 
+  color: white; 
+}
